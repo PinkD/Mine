@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\mine">
+      <UniqueIdentifier>{e4ee29c6-7ca9-4e02-941b-b4158085c52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\mine">
+      <UniqueIdentifier>{a0419081-5161-4100-a206-dfe549d4a2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\default">
+      <UniqueIdentifier>{a8e68f0c-3ffe-4b80-a515-93be5619c8c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\default">
+      <UniqueIdentifier>{0b7ea87a-09fb-4c17-b041-615d45e73ec1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\LearnMFC.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\LearnMFC.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\2.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\3.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\4.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\5.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\6.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\7.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\8.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\boom.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\mark.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\mine.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config.h">
+      <Filter>头文件\mine</Filter>
+    </ClInclude>
+    <ClInclude Include="MineBlock.h">
+      <Filter>头文件\mine</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildView.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="LearnMFC.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="MyButton.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件\default</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>源文件\mine</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildView.cpp">
+      <Filter>源文件\default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件\default</Filter>
+    </ClCompile>
+    <ClCompile Include="LearnMFC.cpp">
+      <Filter>源文件\default</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>源文件\default</Filter>
+    </ClCompile>
+    <ClCompile Include="MyButton.cpp">
+      <Filter>源文件\default</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LearnMFC.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

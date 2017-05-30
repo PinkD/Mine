@@ -81,16 +81,10 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件\default</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>头文件\default</Filter>
-    </ClInclude>
     <ClInclude Include="LearnMFC.h">
       <Filter>头文件\default</Filter>
     </ClInclude>
     <ClInclude Include="MainFrm.h">
-      <Filter>头文件\default</Filter>
-    </ClInclude>
-    <ClInclude Include="MyButton.h">
       <Filter>头文件\default</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -98,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件\default</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>头文件\mine</Filter>
+    </ClInclude>
+    <ClInclude Include="MyButton.h">
+      <Filter>头文件\mine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +117,7 @@
       <Filter>源文件\default</Filter>
     </ClCompile>
     <ClCompile Include="MyButton.cpp">
-      <Filter>源文件\default</Filter>
+      <Filter>源文件\mine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

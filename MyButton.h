@@ -12,20 +12,23 @@ public:
 	virtual ~MyButton();
 	virtual void init(GameManager *manager);
 	virtual Status getStatus();
-	virtual Status sweep(int count);
+	virtual Status sweep();
 	virtual void mark();
 	virtual void reset();
 	virtual void detect();
 	virtual BOOL isMine();
 	virtual void setMine();
-	virtual void gameOver();
+	virtual void performGameOver();
+	virtual void performRestartGame();
 
 protected:
 	virtual void switchToMark();
-	virtual void switchToClear(int count);
+	virtual void switchToClear();
 	virtual void switchToDefault();
 	virtual void switchToBoom();
 	virtual void switchToDetect();
+	afx_msg void OnNcMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);

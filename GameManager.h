@@ -11,7 +11,7 @@ public:
 	GameManager(CArray<CArray<MineBlock*>*> *mineBlocks);
 	~GameManager(void);
 	void restartGame();
-	BOOL isGameOver();
-
+	void gameOver();
+	void sweep(int x, int y, int count);
 };
 

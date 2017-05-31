@@ -38,7 +38,7 @@ void GameManager::restartGame(){
 	}
 	for (int i = 0;i < mineBlocks->GetSize();i++) {//set count
 		for (int j = 0; j < mineBlocks->GetAt(i)->GetSize();j++) {
-			mineBlocks->GetAt(i)->GetAt(j)->setCount(0);
+			mineBlocks->GetAt(i)->GetAt(j)->setCount(5);
 		}
 	}
 	delete[] mine;

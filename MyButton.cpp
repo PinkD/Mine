@@ -30,45 +30,39 @@ BEGIN_MESSAGE_MAP(MyButton, CButton)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_MBUTTONDOWN()
 	ON_WM_MBUTTONUP()
-	ON_WM_NCMOUSEMOVE()
+	ON_WM_MOUSELEAVE()
 END_MESSAGE_MAP()
 
-/*
-afx_msg BOOL MyButton::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult){
-	switch(message){
-	case WM_LBUTTONDOWN:
-
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_RBUTTONDOWN:
-		break;
+afx_msg void MyButton::OnMouseLeave(){
+	/*
+	if (tracking)
+	{
+		TRACKMOUSEEVENT tmp;
+		tmp.cbSize = sizeof(TRACKMOUSEEVENT);
+		tmp.dwFlags = 
 	}
-	return CButton::OnWndMsg(message, wParam, lParam, pResult);
-}
-*/
-
-afx_msg void MyButton::OnNcMouseMove(UINT nFlags, CPoint point){
-	//if ((nFlags & WM_LBUTTONDOWN) !=0){
-	//	lDown = FALSE;
-	//	switchToMark();
-	//}
+	*/
 }
 
 afx_msg void MyButton::OnMouseMove(UINT nFlags, CPoint point){
-	//switchToClear();
+	mark();
 }
 
-afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){
-	lDown = TRUE;
-	CButton::OnLButtonDown(nFlags,point);
+afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){//TODO process OnLButtonDowm myself
+	if (status == STATUS_DEFAULT){
+		CButton::OnLButtonDown(nFlags,point);
+		lDown = TRUE;
+	}
 }
 
 afx_msg void MyButton::OnLButtonUp(UINT nFlags, CPoint point){
-	if (lDown){
+	if (POINT_VALID(&point)) {
 		switchToClear();
-	}else{
-		CButton::OnLButtonUp(nFlags,point);
+		ReleaseCapture();
+	}else {
+		if (!lDown){
+			CButton::OnLButtonUp(nFlags,point);
+		}
 	}
 }
 
@@ -170,6 +164,7 @@ void MyButton::DrawBitMap(int resId){
 		&dcMem,																	// source DC
 		0, 0,																	// source coordinates
 		bitmap.bmWidth, bitmap.bmHeight,										// source dimensions
+		//SRCCOPY);																// raster operation
 		SRCAND);																// raster operation
 	
 
@@ -191,7 +186,7 @@ void MyButton::switchToMark(){
 void MyButton::switchToClear(){
 	if (!gameover){
 		DrawBitMap(NUM_BITMAP[count]);
-		
+		status = STATUS_CLEAR;
 		//manager->sweep(x,y,count);
 	}
 

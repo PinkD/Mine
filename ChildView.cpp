@@ -61,7 +61,6 @@ void CChildView::OnPaint() {
 			//s.Format(_T("%d"),i*10+j);
 			s.Format(_T("%d"),(i+1)*10+j+1);
 			testButtons->GetAt(i)->GetAt(j)->Create(NULL,WS_CHILD | WS_VISIBLE | BS_BITMAP, rect, this, id);
-			//testButtons->GetAt(i)->GetAt(j)->Create(NULL,WS_CHILD | WS_VISIBLE | BS_ICON, rect, this, id);
 			rect.left+=MINE_WIDTH;
 			rect.right+=MINE_WIDTH;
 		}

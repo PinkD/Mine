@@ -28,19 +28,19 @@ protected:
 	virtual void switchToDefault();
 	virtual void switchToBoom();
 	virtual void switchToDetect();
-	//afx_msg BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnNcMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnMouseLeave();
 	DECLARE_MESSAGE_MAP()
 private:
 	void DrawBitMap(int resId);
 	BOOL lDown;
 	BOOL mDown;
+	BOOL tracking;
 };
 
 

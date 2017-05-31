@@ -24,3 +24,7 @@ static int POINT_TO_POSITION(int x, int y) {
 static int RANDOM(int start, int end) {
 	return start + (end - start) * rand() / (RAND_MAX + 1);
 }
+
+static BOOL POINT_VALID(CPoint *point){
+	return point->x > 0 && point->y > 0 && point->x < MINE_WIDTH && point->y < MINE_WIDTH;
+}

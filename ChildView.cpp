@@ -13,15 +13,16 @@
 
 CChildView::CChildView(){
 	testButtons = new CArray<CArray<MyButton*>*>;
-	gamemanager = new GameManager(dynamic_cast<CArray<CArray<MineBlock*>*>*>(testButtons));
+	manager = new GameManager(testButtons);
 	for (int i = 0;i < COUNT_PER_LINE;i++){
 		testButtons->Add(new CArray<MyButton*>());
 	}
 	for (int i = 0;i < COUNT_PER_LINE;i++){
 		for (int j = 0;j < COUNT_PER_LINE;j++){
-			testButtons->GetAt(i)->Add(new MyButton(gamemanager));
+			testButtons->GetAt(i)->Add(new MyButton(manager));
 		}
 	}
+	manager->restartGame();
 }
 
 CChildView::~CChildView(){

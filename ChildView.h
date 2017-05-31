@@ -18,6 +18,6 @@ protected:
 	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
 private:
-	GameManager *gamemanager;
+	GameManager *manager;
 };
 

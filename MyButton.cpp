@@ -24,22 +24,39 @@ MyButton::~MyButton(){
 
 
 BEGIN_MESSAGE_MAP(MyButton, CButton)
-	ON_WM_NCMOUSEMOVE()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_MBUTTONDOWN()
 	ON_WM_MBUTTONUP()
+	ON_WM_NCMOUSEMOVE()
 END_MESSAGE_MAP()
 
-afx_msg void MyButton::OnNcMouseMove(UINT nFlags, CPoint point){
+/*
+afx_msg BOOL MyButton::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult){
+	switch(message){
+	case WM_LBUTTONDOWN:
 
-	switchToMark();
+		break;
+	case WM_LBUTTONUP:
+		break;
+	case WM_RBUTTONDOWN:
+		break;
+	}
+	return CButton::OnWndMsg(message, wParam, lParam, pResult);
+}
+*/
+
+afx_msg void MyButton::OnNcMouseMove(UINT nFlags, CPoint point){
+	//if ((nFlags & WM_LBUTTONDOWN) !=0){
+	//	lDown = FALSE;
+	//	switchToMark();
+	//}
 }
 
 afx_msg void MyButton::OnMouseMove(UINT nFlags, CPoint point){
-	switchToClear();
+	//switchToClear();
 }
 
 afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){
@@ -48,7 +65,11 @@ afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){
 }
 
 afx_msg void MyButton::OnLButtonUp(UINT nFlags, CPoint point){
-	CButton::OnLButtonUp(nFlags,point);
+	if (lDown){
+		switchToClear();
+	}else{
+		CButton::OnLButtonUp(nFlags,point);
+	}
 }
 
 afx_msg void MyButton::OnRButtonDown(UINT nFlags, CPoint point){
@@ -63,31 +84,22 @@ afx_msg void MyButton::OnMButtonUp(UINT nFlags, CPoint point){
 	//TODO to be continued
 }
 
-/*
+
 //interface MineBlock
-virtual Status getStatus()=0;
-virtual Status sweep()=0;
-virtual void mark()=0;
-virtual void reset()=0;
-virtual void detect()=0;
-virtual BOOL isMine()=0;
-virtual void setMine()=0;
-virtual void setGameOver()=0;
-*/
 
 Status MyButton::getStatus(){
 	return status;
 }
 
-Status MyButton::sweep(){
+void MyButton::performSweep(){
 	if (status == STATUS_DEFAULT){
 		if (mine){
 			switchToBoom();
+			throw status;
 		}else{
 			switchToClear();
 		}
 	}
-	return status;
 }
 
 void MyButton::mark(){
@@ -120,13 +132,23 @@ void MyButton::setMine(){
 	mine = TRUE;
 }
 
+void MyButton::setCount(int count){
+	this->count = count;
+}
+
+
 void MyButton::performGameOver(){
+	if (status == STATUS_DEFAULT) {
+		switchToClear();
+	}
 	gameover = TRUE;
 }
 
-void MyButton::performRestartGame(){
+void MyButton::performRestartGame(int x, int y){
+	this->x = x;
+	this->y = y;
 	gameover = FALSE;
-	SetBitmap(NULL);
+	//DrawBitMap(NULL);
 }
 
 void MyButton::DrawBitMap(int resId){
@@ -155,14 +177,8 @@ void MyButton::DrawBitMap(int resId){
 	//SetBitmap(hbitmap);
 }
 
-/*
+
 //switch status with icon change
-virtual void switchToMark();
-virtual void switchToClear();
-virtual void switchToDefault();
-virtual void switchToBoom();
-virtual void switchToDetect();
-*/
 
 void MyButton::switchToMark(){
 	if (!gameover){
@@ -174,7 +190,8 @@ void MyButton::switchToMark(){
 
 void MyButton::switchToClear(){
 	if (!gameover){
-		DrawBitMap(IDB_NUM_2);
+		DrawBitMap(NUM_BITMAP[count]);
+		
 		//manager->sweep(x,y,count);
 	}
 

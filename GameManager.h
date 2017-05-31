@@ -1,14 +1,14 @@
 #pragma once
 
-#include "MineBlock.h"
+#include "MyButton.h"
 
-class MineBlock;
+class MyButton;
 
 class GameManager
 {
-	CArray<CArray<MineBlock*>*> *mineBlocks;
+	CArray<CArray<MyButton*>*> *mineBlocks;
 public:
-	GameManager(CArray<CArray<MineBlock*>*> *mineBlocks);
+	GameManager(CArray<CArray<MyButton*>*> *mineBlocks);
 	~GameManager(void);
 	void restartGame();
 	void gameOver();

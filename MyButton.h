@@ -12,14 +12,15 @@ public:
 	virtual ~MyButton();
 	virtual void init(GameManager *manager);
 	virtual Status getStatus();
-	virtual Status sweep();
+	virtual void performSweep();
 	virtual void mark();
 	virtual void reset();
 	virtual void detect();
 	virtual BOOL isMine();
 	virtual void setMine();
+	virtual void setCount(int count);
 	virtual void performGameOver();
-	virtual void performRestartGame();
+	virtual void performRestartGame(int x, int y);
 
 protected:
 	virtual void switchToMark();
@@ -27,13 +28,14 @@ protected:
 	virtual void switchToDefault();
 	virtual void switchToBoom();
 	virtual void switchToDetect();
-	afx_msg void OnNcMouseMove(UINT nFlags, CPoint point);
+	//afx_msg BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnNcMouseMove(UINT nFlags, CPoint point);
 	DECLARE_MESSAGE_MAP()
 private:
 	void DrawBitMap(int resId);

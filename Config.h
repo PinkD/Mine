@@ -15,10 +15,10 @@ typedef enum {
 	STATUS_BOOM
 }Status;
 
-const int NUM_BITMAP[9] = {IDB_NUM_0, IDB_NUM_1, IDB_NUM_2, IDB_NUM_3, IDB_NUM_4, IDB_NUM_5, IDB_NUM_6, IDB_NUM_7, IDB_NUM_8};
+const int NUM_BITMAP[10] = {IDB_NUM_0, IDB_NUM_1, IDB_NUM_2, IDB_NUM_3, IDB_NUM_4, IDB_NUM_5, IDB_NUM_6, IDB_NUM_7, IDB_NUM_8, IDB_MINE};
 
 static int POINT_TO_POSITION(int x, int y) {
-	return ((y - TOOLBAR_HEIGHT) / MINE_WIDTH) * COUNT_PER_LINE + (x / MINE_WIDTH);
+	return y * COUNT_PER_LINE + x;
 }
 
 static int RANDOM(int start, int end) {

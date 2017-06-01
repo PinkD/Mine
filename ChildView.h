@@ -19,5 +19,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	GameManager *manager;
+	BOOL init;
 };
 

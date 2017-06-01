@@ -22,6 +22,10 @@ public:
 	virtual void performGameOver();
 	virtual void performRestartGame(int x, int y);
 
+
+	virtual afx_msg void UpdateWindow();
+	virtual afx_msg void RedrawWindow();
+
 protected:
 	virtual void switchToMark();
 	virtual void switchToClear();
@@ -34,10 +38,10 @@ protected:
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnMouseLeave();
 	DECLARE_MESSAGE_MAP()
 private:
-	void DrawBitMap(int resId);
+	void DrawBitMap(int resId,BOOL and);
+	void performRedraw();
 	BOOL lDown;
 	BOOL mDown;
 	BOOL tracking;

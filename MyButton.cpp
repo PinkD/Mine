@@ -22,7 +22,6 @@ MyButton::~MyButton(){
 	
 }
 
-
 BEGIN_MESSAGE_MAP(MyButton, CButton)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
@@ -30,25 +29,25 @@ BEGIN_MESSAGE_MAP(MyButton, CButton)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_MBUTTONDOWN()
 	ON_WM_MBUTTONUP()
-	ON_WM_MOUSELEAVE()
 END_MESSAGE_MAP()
 
-afx_msg void MyButton::OnMouseLeave(){
-	/*
-	if (tracking)
-	{
-		TRACKMOUSEEVENT tmp;
-		tmp.cbSize = sizeof(TRACKMOUSEEVENT);
-		tmp.dwFlags = 
-	}
-	*/
+afx_msg void MyButton::UpdateWindow(){
+	CButton::UpdateWindow();
+	performRedraw();
+}
+
+afx_msg void MyButton::RedrawWindow(){
+	CButton::RedrawWindow();
 }
 
 afx_msg void MyButton::OnMouseMove(UINT nFlags, CPoint point){
-	mark();
+	//mark();
 }
 
-afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){//TODO process OnLButtonDowm myself
+afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){
+	if (gameover){
+		return;
+	}
 	if (status == STATUS_DEFAULT){
 		CButton::OnLButtonDown(nFlags,point);
 		lDown = TRUE;
@@ -56,13 +55,9 @@ afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){//TODO process O
 }
 
 afx_msg void MyButton::OnLButtonUp(UINT nFlags, CPoint point){
+	CButton::OnLButtonUp(nFlags,point);
 	if (POINT_VALID(&point)) {
-		switchToClear();
-		ReleaseCapture();
-	}else {
-		if (!lDown){
-			CButton::OnLButtonUp(nFlags,point);
-		}
+		manager->sweep(x, y);
 	}
 }
 
@@ -75,6 +70,7 @@ afx_msg void MyButton::OnMButtonDown(UINT nFlags, CPoint point){
 }
 
 afx_msg void MyButton::OnMButtonUp(UINT nFlags, CPoint point){
+	//switchToBoom();
 	//TODO to be continued
 }
 
@@ -145,7 +141,52 @@ void MyButton::performRestartGame(int x, int y){
 	//DrawBitMap(NULL);
 }
 
-void MyButton::DrawBitMap(int resId){
+
+//switch status with icon change
+
+void MyButton::switchToMark(){
+	if (!gameover){
+		DrawBitMap(IDB_MARK, TRUE);
+		//SetIcon(LoadIcon(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDR_MAINFRAME)));
+		//SetBitmap(LoadBitmap(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BOOM)));
+		status = STATUS_MARK;
+	}
+}
+
+void MyButton::switchToClear(){
+	if (!gameover){
+		DrawBitMap(NUM_BITMAP[count], FALSE);
+		status = STATUS_CLEAR;
+		//manager->sweep(x,y,count);
+	}
+
+}
+
+void MyButton::switchToDefault(){
+	if (!gameover){
+		status = STATUS_DEFAULT;
+		CButton::RedrawWindow();
+	}
+
+}
+
+void MyButton::switchToBoom(){
+	if (!gameover){
+		status = STATUS_BOOM;
+		DrawBitMap(IDB_BOOM, FALSE);
+	}
+}
+
+void MyButton::switchToDetect(){
+	if (!gameover){
+		//SetBitmap(LoadBitmap(IDB_BITMAP1));
+	}
+}
+
+
+//private functions
+
+void MyButton::DrawBitMap(int resId,BOOL and){
 	HBITMAP hbitmap = ::LoadBitmap(::AfxGetInstanceHandle(), MAKEINTRESOURCE(resId));
 	CBitmap hbmp;
 	hbmp.Attach(hbitmap);
@@ -164,49 +205,25 @@ void MyButton::DrawBitMap(int resId){
 		&dcMem,																	// source DC
 		0, 0,																	// source coordinates
 		bitmap.bmWidth, bitmap.bmHeight,										// source dimensions
-		//SRCCOPY);																// raster operation
-		SRCAND);																// raster operation
-	
+		and ? SRCAND : SRCCOPY);												// raster operation
+
 
 	//dcMem.SelectObject(pOldBitmap);
 	//SetBitmap(hbitmap);
 }
 
-
-//switch status with icon change
-
-void MyButton::switchToMark(){
-	if (!gameover){
-		DrawBitMap(IDB_MARK);
-		//SetIcon(LoadIcon(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDR_MAINFRAME)));
-		//SetBitmap(LoadBitmap(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BOOM)));
-	}
-}
-
-void MyButton::switchToClear(){
-	if (!gameover){
-		DrawBitMap(NUM_BITMAP[count]);
-		status = STATUS_CLEAR;
-		//manager->sweep(x,y,count);
-	}
-
-}
-
-void MyButton::switchToDefault(){
-	if (!gameover){
-		//TODO 
-	}
-
-}
-
-void MyButton::switchToBoom(){
-	if (!gameover){
-		DrawBitMap(IDB_BOOM);
-	}
-}
-
-void MyButton::switchToDetect(){
-	if (!gameover){
-		//SetBitmap(LoadBitmap(IDB_BITMAP1));
+void MyButton::performRedraw(){
+	switch (status){
+	case STATUS_BOOM:
+		switchToBoom();
+		break;
+	case STATUS_CLEAR:
+		switchToClear();
+		break;
+	case STATUS_MARK:
+		switchToMark();
+		break;
+	case STATUS_DEFAULT:
+		break;
 	}
 }

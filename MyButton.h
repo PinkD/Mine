@@ -24,7 +24,7 @@ public:
 
 
 	virtual afx_msg void UpdateWindow();
-	virtual afx_msg void RedrawWindow();
+	//virtual afx_msg void RedrawWindow();
 
 protected:
 	virtual void switchToMark();
@@ -32,6 +32,7 @@ protected:
 	virtual void switchToDefault();
 	virtual void switchToBoom();
 	virtual void switchToDetect();
+	virtual void drawStatus();
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
@@ -44,7 +45,6 @@ private:
 	void performRedraw();
 	BOOL lDown;
 	BOOL mDown;
-	BOOL tracking;
 };
 
 

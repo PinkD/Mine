@@ -36,9 +36,11 @@ afx_msg void MyButton::UpdateWindow(){
 	performRedraw();
 }
 
+/*
 afx_msg void MyButton::RedrawWindow(){
 	CButton::RedrawWindow();
 }
+*/
 
 afx_msg void MyButton::OnMouseMove(UINT nFlags, CPoint point){
 	//mark();
@@ -89,6 +91,7 @@ void MyButton::performSweep(){
 		}else{
 			switchToClear();
 		}
+		drawStatus();
 	}
 }
 
@@ -137,6 +140,11 @@ void MyButton::performGameOver(){
 void MyButton::performRestartGame(int x, int y){
 	this->x = x;
 	this->y = y;
+	status = STATUS_DEFAULT;
+	//if (gameover){
+		performRedraw();
+	//}
+	mine = FALSE;
 	gameover = FALSE;
 	//DrawBitMap(NULL);
 }
@@ -146,18 +154,20 @@ void MyButton::performRestartGame(int x, int y){
 
 void MyButton::switchToMark(){
 	if (!gameover){
-		DrawBitMap(IDB_MARK, TRUE);
 		//SetIcon(LoadIcon(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDR_MAINFRAME)));
 		//SetBitmap(LoadBitmap(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BOOM)));
 		status = STATUS_MARK;
+		drawStatus();
 	}
 }
 
 void MyButton::switchToClear(){
 	if (!gameover){
-		DrawBitMap(NUM_BITMAP[count], FALSE);
 		status = STATUS_CLEAR;
-		//manager->sweep(x,y,count);
+		drawStatus();
+		if (count == 0){
+			manager->sweep(x,y,count);
+		}
 	}
 
 }
@@ -215,15 +225,30 @@ void MyButton::DrawBitMap(int resId,BOOL and){
 void MyButton::performRedraw(){
 	switch (status){
 	case STATUS_BOOM:
-		switchToBoom();
-		break;
 	case STATUS_CLEAR:
-		switchToClear();
-		break;
 	case STATUS_MARK:
-		switchToMark();
+		drawStatus();
 		break;
 	case STATUS_DEFAULT:
+		if (IsWindow(m_hWnd)) {
+			CButton::RedrawWindow();
+		}
+		break;
+	}
+}
+void MyButton::drawStatus() {
+	switch (status){
+	case STATUS_BOOM:
+		DrawBitMap(IDB_BOOM, TRUE);
+		break;
+	case STATUS_CLEAR:
+		DrawBitMap(NUM_BITMAP[count], FALSE);
+		break;
+	case STATUS_MARK:
+		DrawBitMap(IDB_MARK, TRUE);
+		break;
+	case STATUS_DEFAULT:
+		CButton::RedrawWindow();
 		break;
 	}
 }

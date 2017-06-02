@@ -1,14 +1,31 @@
 #include "StdAfx.h"
+#include "afxdialogex.h"
 #include "GameManager.h"
 
 
 GameManager::GameManager(CArray<CArray<MyButton*>*> *mineBlocks):mineBlocks(mineBlocks){
-	;
 }
 
 
-GameManager::~GameManager(void)
-{
+GameManager::~GameManager(void) {
+}
+
+BOOL GameManager::isWin(){
+	for (int i = 0;i < mineBlocks->GetSize();i++) {
+		for (int j = 0; j < mineBlocks->GetAt(i)->GetSize();j++) {
+			Status status = mineBlocks->GetAt(i)->GetAt(j)->getStatus();
+			if (status != STATUS_CLEAR && status != STATUS_MARK) {
+				return FALSE;
+			}
+		}
+	}
+	return TRUE;
+}
+
+void GameManager::win(){
+	gameOver();
+	MessageBox(NULL, _T("You Win"), _T("Win"), NULL);
+	//TODO Dialog
 }
 
 void GameManager::gameOver(){
@@ -17,6 +34,7 @@ void GameManager::gameOver(){
 			mineBlocks->GetAt(i)->GetAt(j)->performGameOver();
 		}
 	}
+
 }
 
 void GameManager::restartGame(){
@@ -24,17 +42,13 @@ void GameManager::restartGame(){
 	int tmp;
 	srand(unsigned(time(0)));
 	for (int i = 0;i < mineBlocks->GetSize();i++) {//create mine
-		tmp = RANDOM(0, (mineBlocks->GetSize() - 1) * (mineBlocks->GetSize() - 1));
-		mine[i] = tmp;
-		//mine[i] = RANDOM(0, mineBlocks->GetSize() * mineBlocks->GetSize());
+		mine[i] = RANDOM(0, (mineBlocks->GetSize() - 1) * (mineBlocks->GetSize() - 1));
 	}
 	for (int i = 0;i < mineBlocks->GetSize();i++) {//set mine
 		for (int j = 0; j < mineBlocks->GetAt(i)->GetSize();j++) {
 			mineBlocks->GetAt(i)->GetAt(j)->performRestartGame(i,j);
 			for (int k = 0;k < COUNT_PER_LINE;k++) {
-				tmp = POINT_TO_POSITION(i,j);
-				//if (mine[i] == POINT_TO_POSITION(i,j)) {
-				if (mine[k] == tmp) {
+				if (mine[k] == POINT_TO_POSITION(i,j)) {
 					mineBlocks->GetAt(i)->GetAt(j)->setMine();
 					break;
 				}
@@ -56,6 +70,9 @@ void GameManager::restartGame(){
 void GameManager::sweep(int x, int y){//recursion able
 	try{
 		mineBlocks->GetAt(x)->GetAt(y)->performSweep();
+		if (isWin()){
+			win();
+		}
 	}catch (Status status){
 		if (status == STATUS_BOOM) {
 			gameOver();

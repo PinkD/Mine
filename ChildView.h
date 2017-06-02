@@ -20,5 +20,7 @@ protected:
 private:
 	GameManager *manager;
 	BOOL init;
+public:
+	afx_msg void OnRestartGameSelected();
 };
 

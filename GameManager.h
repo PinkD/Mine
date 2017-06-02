@@ -11,6 +11,8 @@ public:
 	GameManager(CArray<CArray<MyButton*>*> *mineBlocks);
 	~GameManager(void);
 	void restartGame();
+	BOOL isWin();
+	void win();
 	void gameOver();
 	void sweep(int x, int y, int count);
 	void sweep(int x, int y);

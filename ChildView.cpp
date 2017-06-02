@@ -33,6 +33,7 @@ CChildView::~CChildView(){
 
 BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_PAINT()
+	ON_COMMAND(ID_32771, &CChildView::OnRestartGameSelected)
 END_MESSAGE_MAP()
 
 
@@ -75,7 +76,9 @@ void CChildView::OnPaint() {
 		rect.bottom += MINE_WIDTH;
 	}
 	init = TRUE;
-	//CRect rect;
-	//GetClientRect(rect);
-	//dc.DrawText(_T("test"),rect,DT_CENTER);
+}
+
+
+void CChildView::OnRestartGameSelected() {
+	manager->restartGame();
 }

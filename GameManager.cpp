@@ -42,7 +42,7 @@ void GameManager::restartGame(){
 	int tmp;
 	srand(unsigned(time(0)));
 	for (int i = 0;i < mineBlocks->GetSize();i++) {//create mine
-		mine[i] = RANDOM(0, (mineBlocks->GetSize() - 1) * (mineBlocks->GetSize() - 1));
+		RANDOM_BETWEEN(0, (mineBlocks->GetSize() - 1) * (mineBlocks->GetSize() - 1), mineBlocks->GetSize(), mine);
 	}
 	for (int i = 0;i < mineBlocks->GetSize();i++) {//set mine
 		for (int j = 0; j < mineBlocks->GetAt(i)->GetSize();j++) {

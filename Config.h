@@ -21,8 +21,17 @@ static int POINT_TO_POSITION(int x, int y) {
 	return y * COUNT_PER_LINE + x;
 }
 
-static int RANDOM(int start, int end) {
-	return start + (end - start) * rand() / (RAND_MAX + 1);
+static void RANDOM_BETWEEN(int start, int end, int count, int *out) {
+	CArray<int> list;
+	for (int i = start;i <= end;i++) {
+		list.Add(start + i);
+	}
+	int r;
+	for (int i = 0;i < count;i++) {
+		 r = rand() % (end - start - i);
+		out[i] = list.GetAt(r);
+		list.RemoveAt(r);
+	}
 }
 
 static BOOL POINT_VALID(CPoint *point){

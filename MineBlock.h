@@ -30,11 +30,11 @@ protected:
 	virtual void switchToClear()=0;
 	virtual void switchToDefault()=0;
 	virtual void switchToBoom()=0;
-	virtual void switchToDetect()=0;
 
 	GameManager *manager;
 	Status status;
 	BOOL mine;
 	BOOL gameover;
+	BOOL redraw;
 };
 

@@ -19,26 +19,24 @@ public:
 	virtual BOOL isMine();
 	virtual void setMine();
 	virtual void setCount(int count);
-	virtual void performGameOver();
-	virtual void performRestartGame(int x, int y);
-
-
-	virtual afx_msg void UpdateWindow();
-	//virtual afx_msg void RedrawWindow();
-
-protected:
 	virtual void switchToMark();
 	virtual void switchToClear();
 	virtual void switchToDefault();
 	virtual void switchToBoom();
-	virtual void switchToDetect();
+	virtual void performGameOver();
+	virtual void performRestartGame(int x, int y);
+
+
+	afx_msg virtual void UpdateWindow();
+
+protected:
 	virtual void drawStatus();
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
+
+	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
 private:
 	void DrawBitMap(int resId,BOOL and);

@@ -13,9 +13,6 @@ void MyButton::init(GameManager *manager){
 
 MyButton::MyButton(GameManager *manager) {
 	init(manager);
-	gameover = FALSE;
-	mine = FALSE;
-	status = STATUS_DEFAULT;
 }
 
 MyButton::~MyButton(){
@@ -23,12 +20,11 @@ MyButton::~MyButton(){
 }
 
 BEGIN_MESSAGE_MAP(MyButton, CButton)
-	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_RBUTTONDOWN()
-	ON_WM_MBUTTONDOWN()
 	ON_WM_MBUTTONUP()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 afx_msg void MyButton::UpdateWindow(){
@@ -36,44 +32,38 @@ afx_msg void MyButton::UpdateWindow(){
 	performRedraw();
 }
 
-/*
-afx_msg void MyButton::RedrawWindow(){
-	CButton::RedrawWindow();
-}
-*/
-
-afx_msg void MyButton::OnMouseMove(UINT nFlags, CPoint point){
-	//mark();
-}
-
 afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){
 	if (gameover){
 		return;
 	}
 	if (status == STATUS_DEFAULT){
-		CButton::OnLButtonDown(nFlags,point);
 		lDown = TRUE;
+		CButton::OnLButtonDown(nFlags,point);
 	}
 }
 
 afx_msg void MyButton::OnLButtonUp(UINT nFlags, CPoint point){
-	CButton::OnLButtonUp(nFlags,point);
+	if (status != STATUS_DEFAULT){
+		return;
+	}
+	CButton::OnLButtonUp(nFlags, point);
+	lDown = FALSE;
 	if (POINT_VALID(&point)) {
 		manager->sweep(x, y);
-	}
+ 	}
 }
 
 afx_msg void MyButton::OnRButtonDown(UINT nFlags, CPoint point){
 	mark();
 }
 
-afx_msg void MyButton::OnMButtonDown(UINT nFlags, CPoint point){
-	//TODO to be continued
-}
-
 afx_msg void MyButton::OnMButtonUp(UINT nFlags, CPoint point){
-	//switchToBoom();
-	//TODO to be continued
+	if (status != STATUS_CLEAR){
+		return;
+	}
+	if (POINT_VALID(&point)) {
+		detect();
+	}
 }
 
 
@@ -90,8 +80,10 @@ void MyButton::performSweep(){
 			throw status;
 		}else{
 			switchToClear();
+			if (count == 0){
+				manager->sweep(x,y,count);
+			}
 		}
-		drawStatus();
 	}
 }
 
@@ -99,22 +91,23 @@ void MyButton::mark(){
 	switch (status){
 	case STATUS_DEFAULT:
 		switchToMark();
+		manager->mineCountSub();
 		break;
 	case STATUS_MARK:
 		switchToDefault();
+		manager->mineCountAdd();
 		break;
 	default:
 		break;
 	}
 }
 
-
-void MyButton::detect(){
-	switchToDetect();
-}
-
 void MyButton::reset(){
 	switchToDefault();
+}
+
+void MyButton::detect(){
+	manager->sweep(x, y, count);
 }
 
 BOOL MyButton::isMine(){
@@ -140,13 +133,11 @@ void MyButton::performGameOver(){
 void MyButton::performRestartGame(int x, int y){
 	this->x = x;
 	this->y = y;
+	redraw = FALSE;
 	status = STATUS_DEFAULT;
-	//if (gameover){
-		performRedraw();
-	//}
 	mine = FALSE;
 	gameover = FALSE;
-	//DrawBitMap(NULL);
+	performRedraw();
 }
 
 
@@ -154,8 +145,9 @@ void MyButton::performRestartGame(int x, int y){
 
 void MyButton::switchToMark(){
 	if (!gameover){
-		//SetIcon(LoadIcon(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDR_MAINFRAME)));
-		//SetBitmap(LoadBitmap(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_BOOM)));
+		if (status == STATUS_MARK){
+			return;
+		}
 		status = STATUS_MARK;
 		drawStatus();
 	}
@@ -163,49 +155,48 @@ void MyButton::switchToMark(){
 
 void MyButton::switchToClear(){
 	if (!gameover){
+		if (status == STATUS_CLEAR){
+			return;
+		}
 		status = STATUS_CLEAR;
 		drawStatus();
-		if (count == 0){
-			manager->sweep(x,y,count);
-		}
 	}
 
 }
 
 void MyButton::switchToDefault(){
 	if (!gameover){
+		if (status == STATUS_DEFAULT){
+			return;
+		}
 		status = STATUS_DEFAULT;
-		CButton::RedrawWindow();
+		RedrawWindow();
 	}
 
 }
 
 void MyButton::switchToBoom(){
 	if (!gameover){
+		if (status == STATUS_BOOM){
+			return;
+		}
 		status = STATUS_BOOM;
 		DrawBitMap(IDB_BOOM, FALSE);
 	}
 }
 
-void MyButton::switchToDetect(){
-	if (!gameover){
-		//SetBitmap(LoadBitmap(IDB_BITMAP1));
-	}
-}
-
-
 //private functions
 
 void MyButton::DrawBitMap(int resId,BOOL and){
-	HBITMAP hbitmap = ::LoadBitmap(::AfxGetInstanceHandle(), MAKEINTRESOURCE(resId));
 	CBitmap hbmp;
-	hbmp.Attach(hbitmap);
+	hbmp.LoadBitmap(resId);
 	BITMAP bitmap;
 	hbmp.GetBitmap(&bitmap);
 	CDC dcMem;
 	//创建兼容DC
 	dcMem.CreateCompatibleDC(GetDC());
-	CBitmap *pOldBitmap=(CBitmap*)dcMem.SelectObject(hbmp);
+	//CreateCompatibleBitmap
+	CBitmap *pOldBitmap = (CBitmap*)dcMem.SelectObject(hbmp);
 	CRect rect;
 	//获取Static控件的大小范围
 	GetClientRect(rect);
@@ -217,9 +208,8 @@ void MyButton::DrawBitMap(int resId,BOOL and){
 		bitmap.bmWidth, bitmap.bmHeight,										// source dimensions
 		and ? SRCAND : SRCCOPY);												// raster operation
 
-
-	//dcMem.SelectObject(pOldBitmap);
-	//SetBitmap(hbitmap);
+	dcMem.SelectObject(&pOldBitmap);
+	dcMem.DeleteDC();
 }
 
 void MyButton::performRedraw(){
@@ -231,7 +221,7 @@ void MyButton::performRedraw(){
 		break;
 	case STATUS_DEFAULT:
 		if (IsWindow(m_hWnd)) {
-			CButton::RedrawWindow();
+			RedrawWindow();
 		}
 		break;
 	}
@@ -247,8 +237,10 @@ void MyButton::drawStatus() {
 	case STATUS_MARK:
 		DrawBitMap(IDB_MARK, TRUE);
 		break;
-	case STATUS_DEFAULT:
-		CButton::RedrawWindow();
-		break;
 	}
+}
+
+void MyButton::OnPaint(){
+	CButton::OnPaint();
+	drawStatus();
 }

@@ -3,7 +3,8 @@
 #include "resource.h"
 
 #define MINE_WIDTH 25
-#define TOOLBAR_HEIGHT MINE_WIDTH * 3
+#define TIMER_ID 0xFC
+#define TOOLBAR_HEIGHT MINE_WIDTH * 2
 #define COUNT_PER_LINE 9
 #define LEVEL_1 1
 #define LEVEL_2 2
@@ -37,3 +38,8 @@ static void RANDOM_BETWEEN(int start, int end, int count, int *out) {
 static BOOL POINT_VALID(CPoint *point){
 	return point->x > 0 && point->y > 0 && point->x < MINE_WIDTH && point->y < MINE_WIDTH;
 }
+
+class UpdateDrawCountCallBack{
+public:
+	virtual void updateDrawCount(int count)=0;
+};

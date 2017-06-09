@@ -97,7 +97,7 @@ void GameManager::restartGame(){
 void GameManager::sweep(int x, int y){
 	try{
 		mineBlocks->GetAt(x)->GetAt(y)->performSweep();
-		if (autoMark) {
+		if (autoMark | cheatMode) {
 			performAutoMark();
 			//autoMarkBlock(x, y, mineBlocks->GetAt(x)->GetAt(y)->count);
 		}
@@ -171,7 +171,7 @@ void GameManager::sweep(int x, int y, int count){//recursion able
 		if (right && bottom && !gameover) {
 			mineBlocks->GetAt(x + 1)->GetAt(y + 1)->performSweep();
 		}
-		if (autoMark) {
+		if (autoMark | cheatMode) {
 			performAutoMark();
 			//autoMarkBlock(x, y, count);
 		}

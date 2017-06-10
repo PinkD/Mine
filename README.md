@@ -9,5 +9,10 @@ C++ Homework
 - 加了个cheat mode，其实就是遍历全图，自动判断
 - 不熟悉C++和MFC，所以就只是简单的抽象了一下 `MineBlock` 和 `GameManager`
 
+## License
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 
+```License
+Copyright 2017 PinkD
+```
 

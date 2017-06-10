@@ -97,6 +97,7 @@
   <ItemGroup>
     <None Include="..\..\..\..\..\Desktop\0.bmp" />
     <None Include="ReadMe.txt" />
+    <None Include="res\0.bmp" />
     <None Include="res\1.bmp" />
     <None Include="res\2.bmp" />
     <None Include="res\3.bmp" />

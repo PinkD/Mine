@@ -37,7 +37,6 @@ afx_msg void MyButton::OnLButtonDown(UINT nFlags, CPoint point){
 		return;
 	}
 	if (status == STATUS_DEFAULT){
-		lDown = TRUE;
 		CButton::OnLButtonDown(nFlags,point);
 	}
 }
@@ -47,7 +46,6 @@ afx_msg void MyButton::OnLButtonUp(UINT nFlags, CPoint point){
 		return;
 	}
 	CButton::OnLButtonUp(nFlags, point);
-	lDown = FALSE;
 	if (POINT_VALID(&point)) {
 		manager->sweep(x, y);
  	}

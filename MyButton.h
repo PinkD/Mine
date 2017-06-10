@@ -41,8 +41,6 @@ protected:
 private:
 	void DrawBitMap(int resId,BOOL and);
 	void performRedraw();
-	BOOL lDown;
-	BOOL mDown;
 };
 
 
